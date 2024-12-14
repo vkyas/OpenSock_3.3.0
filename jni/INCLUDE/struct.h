@@ -3,6 +3,7 @@
 
 #include "support.h"
 #include "init.h"
+
 #define maxplayerCount 100
 #define maxvehicleCount 50
 #define maxitemsCount 400
@@ -26,6 +27,7 @@ struct PlayerBone
 	Vec2 rKn;
 	Vec2 lAn;
 	Vec2 rAn;
+	Vec2 root;
 };
 
 struct PlayerWeapon
