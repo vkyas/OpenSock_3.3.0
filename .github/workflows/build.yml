@@ -35,6 +35,9 @@ jobs:
       run: |
         ndk-build -C jni
 
+    - name: List build output directory contents
+      run: ls -la jni/libs
+
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
