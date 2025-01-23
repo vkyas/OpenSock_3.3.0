@@ -28,19 +28,15 @@ jobs:
         unzip android-ndk-r25b-linux.zip -d $HOME
         echo "$HOME/android-ndk-r25b" >> $GITHUB_PATH
 
-    - name: Navigate to project directory
-      run: |
-        ls -la
-        cd OpenSock_3.3.0
-        ls -la
+    - name: List directory contents
+      run: ls -la
 
     - name: Build NDK
       run: |
-        cd OpenSock_3.3.0
         ndk-build -C jni
 
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
         name: ndk-build-output
-        path: OpenSock_3.3.0/jni/libs
+        path: jni/libs
