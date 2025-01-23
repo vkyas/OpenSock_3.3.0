@@ -1,20 +1,40 @@
 name: Build NDK
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Setup Android NDK
-      uses: nttld/setup-ndk@v1
+    - name: Set up JDK
+      uses: actions/setup-java@v3
       with:
-        ndk-version: r26d 
+        distribution: 'temurin'
+        java-version: '11'
 
-    - name: Build with NDK
+    - name: Set up NDK
       run: |
-        ndk-build NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=./Android.mk NDK_APPLICATION_MK=./Application.mk
+        wget https://dl.google.com/android/repository/android-ndk-r25b-linux.zip
+        unzip android-ndk-r25b-linux.zip -d $HOME
+        echo "$HOME/android-ndk-r25b" >> $GITHUB_PATH
+
+    - name: Build NDK
+      run: |
+        cd OpenSock_3.3.0
+        ndk-build -C jni
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ndk-build-output
+        path: OpenSock_3.3.0/jni/libs
